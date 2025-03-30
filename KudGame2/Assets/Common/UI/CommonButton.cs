@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEditor;
 
-namespace Star.Common.UI
+namespace Kud.Common.UI
 {
     public class CommonButton : Button
     {

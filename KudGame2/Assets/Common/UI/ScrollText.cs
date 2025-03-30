@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 
-namespace Star.Common.UI
+namespace Kud.Common.UI
 {
     public class ScrollText : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {

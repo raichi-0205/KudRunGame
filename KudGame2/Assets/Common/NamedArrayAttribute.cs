@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
-namespace Star.Editor
+namespace Kud.Editor
 {
     public class NamedArrayAttribute : PropertyAttribute
     {
