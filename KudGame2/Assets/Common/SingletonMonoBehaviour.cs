@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-namespace Star.Common
+namespace Kud.Common
 {
     public class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour
     {
@@ -17,6 +17,14 @@ namespace Star.Common
                     instance = obj.AddComponent<T>();
                 }
                 return instance;
+            }
+        }
+
+        protected SingletonMonoBehaviour()
+        {
+            if(instance == null)
+            {
+                instance = this as T;
             }
         }
 

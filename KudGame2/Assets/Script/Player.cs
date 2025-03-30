@@ -1,4 +1,4 @@
-﻿using UnityEditor;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
@@ -7,15 +7,6 @@ namespace Kud.MainGame
 {
     public class Player : MonoBehaviour
     {
-        // Todo: これらはここに入れるべきじゃない
-        [SerializeField] float bothEndsLineWidth;   // 端の線の幅
-        [SerializeField] float lineWidth;           // 線の幅
-        [SerializeField] int split;                 // 分割数
-
-        public float BothEndsLineWidth { get { return bothEndsLineWidth; } }
-        public float LineWidth { get { return lineWidth; } }
-        public int Split { get { return split; } }
-
         // ここからが処理
         [SerializeField] int colum;                 // 初期列
         public int Colum { get { return colum; } }
@@ -38,13 +29,15 @@ namespace Kud.MainGame
             //    linePosxs[i] = ColumXPos(i);
             //}
             linePosxs = new List<float>();
-            for(int i = 0; i < split; i++)
+            for(int i = 0; i < MapManager.Instance.Split; i++)
             {
-                linePosxs.Add(ScreenToWorldColumXPos(i));
+                linePosxs.Add(MapManager.Instance.ScreenToWorldColumXPos(i));
             }
 
             leftButton.onClick.AddListener(() => { OnButton(true); });
             rightButton.onClick.AddListener(() => { OnButton(false); });
+
+            transform.position = new Vector3(linePosxs[colum], transform.position.y, transform.position.z);
         }
 
         // Update is called once per frame
@@ -56,13 +49,13 @@ namespace Kud.MainGame
             if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
                 colum--;
-                colum = Mathf.Clamp(colum, 0, split - 1);
+                colum = Mathf.Clamp(colum, 0, MapManager.Instance.Split - 1);
                 transform.position = new Vector3(linePosxs[colum], transform.position.y, transform.position.z);
             }
             else if (Input.GetKeyDown(KeyCode.RightArrow))
             {
                 colum++;
-                colum = Mathf.Clamp(colum, 0, split - 1);
+                colum = Mathf.Clamp(colum, 0, MapManager.Instance.Split - 1);
                 transform.position = new Vector3(linePosxs[colum], transform.position.y, transform.position.z);
             }
         }
@@ -101,35 +94,15 @@ namespace Kud.MainGame
             {
                 colum++;
             }
-            colum = Mathf.Clamp(colum, 0, split - 1);
+            colum = Mathf.Clamp(colum, 0, MapManager.Instance.Split - 1);
             length = Mathf.Abs(linePosxs[colum] - transform.position.x);
             speed = length / moveTime;        // 必要な速度を求める
-        }
-
-        public float ColumXPos(int _colum)
-        {
-            float windowWidth = Camera.main.pixelWidth;
-            float leftSpace = BothEndsLineWidth;
-            float nextSpace = LineWidth;
-            int split = Split;
-            Debug.Log($"cameraWidth:{windowWidth}");
-            float width = (windowWidth - leftSpace * 2 - nextSpace * (split - 1)) / split;
-            Debug.Log($"width:{width}");
-            float posx = nextSpace * _colum + width * _colum + leftSpace + width / 2;
-            Debug.Log($"pos x:{posx}");
-            return posx;
-        }
-
-        public float ScreenToWorldColumXPos(int _colum)
-        {
-            Vector2 pos = Camera.main.ScreenToWorldPoint(new Vector3(ColumXPos(_colum), 0, 0));
-            return pos.x;
         }
     }
 
 #if UNITY_EDITOR
     [CustomEditor(typeof(Player))]
-    public class PlayerEditor : Editor
+    public class PlayerEditor : UnityEditor.Editor
     {
         float posx = 0;
         public override void OnInspectorGUI()
@@ -139,7 +112,7 @@ namespace Kud.MainGame
             base.OnInspectorGUI();
             if (GUILayout.Button("指定列の座標を計算"))
             {
-                posx = player.ColumXPos(player.Colum);
+                posx = MapManager.Instance.ColumXPos(player.Colum);
             }
             GUILayout.Label(posx.ToString());
             if (GUILayout.Button("反映"))
