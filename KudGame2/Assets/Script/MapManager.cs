@@ -38,6 +38,17 @@ namespace Kud.MainGame
         }
 
         /// <summary>
+        /// 画面外の上座標を取得
+        /// </summary>
+        /// <param name="_height">オブジェクトの縦サイズ</param>
+        /// <returns></returns>
+        public float GetOverDisplayTop(float _height)
+        {
+            float topPos = Camera.main.pixelHeight;
+            return Camera.main.ScreenToWorldPoint(new Vector3(0, topPos, 0)).y + _height / 2;
+        }
+
+        /// <summary>
         /// 列の中心座標を求める
         /// </summary>
         /// <param name="_colum"></param>

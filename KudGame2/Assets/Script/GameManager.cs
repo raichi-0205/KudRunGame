@@ -124,7 +124,7 @@ namespace Kud.MainGame
                         {
                             HitObject human = Instantiate(hitObjects[i]);
                             human.transform.SetParent(content.transform, true);
-                            human.transform.position = new Vector3(MapManager.Instance.LinePosxs[1], 0, 0);
+                            human.transform.position = new Vector3(MapManager.Instance.LinePosxs[1], MapManager.Instance.GetOverDisplayTop(human.transform.localScale.y), 0);
                             humanObjecs.Add(human);
                         }
                         break;
@@ -133,7 +133,7 @@ namespace Kud.MainGame
                         {
                             HitObject protein = Instantiate(hitObjects[i]);
                             protein.transform.SetParent(content.transform, true);
-                            protein.transform.position = new Vector3(MapManager.Instance.LinePosxs[1], 0, 0);
+                            protein.transform.position = new Vector3(MapManager.Instance.LinePosxs[1], MapManager.Instance.GetOverDisplayTop(protein.transform.localScale.y), 0);
                             proteinObjecs.Add(protein);
                         }
                         break;
@@ -142,7 +142,7 @@ namespace Kud.MainGame
                         {
                             HitObject hurdle = Instantiate(hitObjects[i]);
                             hurdle.transform.SetParent(content.transform, true);
-                            hurdle.transform.position = new Vector3(MapManager.Instance.LinePosxs[1], 0, 0);
+                            hurdle.transform.position = new Vector3(MapManager.Instance.LinePosxs[1], MapManager.Instance.GetOverDisplayTop(hurdle.transform.localScale.y), 0);
                             proteinObjecs.Add(hurdle);
                         }
                         break;
