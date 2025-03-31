@@ -7,10 +7,9 @@ namespace Kud.MainGame
 {
     public class Player : MonoBehaviour
     {
-        // ここからが処理
         [SerializeField] int colum;                 // 初期列
         public int Colum { get { return colum; } }
-        public List<float> linePosxs;
+        private List<float> linePosxs;
 
         [SerializeField] float moveTime = 0.25f;
         float length = 0;
@@ -20,24 +19,19 @@ namespace Kud.MainGame
         [SerializeField] Button leftButton;
         [SerializeField] Button rightButton;
 
-        // Use this for initialization
-        void Start()
+        public void Initialize()
         {
-            //linePosxs = new List<float>(split);            // 分割数で領域確保
-            //for(int i = 0; i < linePosxs.Count; i++)
-            //{
-            //    linePosxs[i] = ColumXPos(i);
-            //}
-            linePosxs = new List<float>();
-            for(int i = 0; i < MapManager.Instance.Split; i++)
-            {
-                linePosxs.Add(MapManager.Instance.ScreenToWorldColumXPos(i));
-            }
-
             leftButton.onClick.AddListener(() => { OnButton(true); });
             rightButton.onClick.AddListener(() => { OnButton(false); });
 
+            linePosxs = MapManager.Instance.LinePosxs;
             transform.position = new Vector3(linePosxs[colum], transform.position.y, transform.position.z);
+        }
+
+        // Use this for initialization
+        void Start()
+        {
+
         }
 
         // Update is called once per frame
@@ -105,6 +99,8 @@ namespace Kud.MainGame
     public class PlayerEditor : UnityEditor.Editor
     {
         float posx = 0;
+        List<float> linePosxs;
+
         public override void OnInspectorGUI()
         {
             Player player = target as Player;

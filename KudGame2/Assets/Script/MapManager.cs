@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 using Kud.Common;
 
 namespace Kud.MainGame
@@ -8,10 +9,21 @@ namespace Kud.MainGame
         [SerializeField] float bothEndsLineWidth;   // 端の線の幅
         [SerializeField] float lineWidth;           // 線の幅
         [SerializeField] int split;                 // 分割数
+        private List<float> linePosxs;              // 各列の中心点のワールド座標
 
         public float BothEndsLineWidth { get { return bothEndsLineWidth; } }
         public float LineWidth { get { return lineWidth; } }
         public int Split { get { return split; } }
+        public List<float> LinePosxs { get { return linePosxs; } }
+
+        public void Initialize()
+        {
+            linePosxs = new List<float>();
+            for (int i = 0; i < MapManager.Instance.Split; i++)
+            {
+                linePosxs.Add(MapManager.Instance.ScreenToWorldColumXPos(i));
+            }
+        }
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
