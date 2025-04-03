@@ -1,9 +1,10 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Kud.Common;
 
 namespace Kud.MainGame
 {
-    public class GameManager : MonoBehaviour
+    public class GameManager : SingletonMonoBehaviour<GameManager>
     {
         public enum OBJECT_TYPE
         {
@@ -36,9 +37,9 @@ namespace Kud.MainGame
         [SerializeField] float addThinkingTime = 1;     // 生成しないときに次生成判断する時間の指定
         [SerializeField] GameObject content;            // 生成したオブジェクトの保管
 
-        List<HitObject> humanObjecs = new List<HitObject>();
-        List<HitObject> proteinObjecs = new List<HitObject>();
-        List<HitObject> hurdleObjecs = new List<HitObject>();
+        List<HumanObject> humanObjecs = new List<HumanObject>();
+        List<ProteinObject> proteinObjecs = new List<ProteinObject>();
+        List<HurdleObject> hurdleObjecs = new List<HurdleObject>();
 
         [Header("Created Object")]
         [SerializeField] int humanCurrentNum = 0;       // 画面に出ているヒューマンオブジェクトの数
@@ -88,6 +89,7 @@ namespace Kud.MainGame
                     {
                         Debug.Log($"[Create] Human:{humanCurrentNum}");
                         humanCurrentNum++;
+                        StartObject(humanObjecs);
                     }
                     break;
                 case OBJECT_TYPE.Protein:
@@ -95,6 +97,7 @@ namespace Kud.MainGame
                     {
                         Debug.Log($"[Create] Protein:{proteinCurrentNum}");
                         proteinCurrentNum++;
+                        StartObject(proteinObjecs);
                     }
                     break;
                 case OBJECT_TYPE.Hurdle:
@@ -102,6 +105,7 @@ namespace Kud.MainGame
                     {
                         Debug.Log($"[Create] Hurdle:{hurdleCurrentNum}");
                         hurdleCurrentNum++;
+                        StartObject(hurdleObjecs);
                     }
                     break;
                 default:
@@ -112,6 +116,26 @@ namespace Kud.MainGame
             nextThinkingTime = Random.Range(thinkingMinTime, thinkingMaxTime);      // 指定範囲秒を次の生成判断の時間にする
         }
 
+        /// <summary>
+        /// オブジェクトの開始
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="_objects"></param>
+        private void StartObject<T>(List<T> _objects) where T : HitObject
+        {
+            for (int i = 0; i < _objects.Count; i++)
+            {
+                if (!_objects[i].gameObject.activeSelf)
+                {
+                    _objects[i].Initialize(Random.Range(0, 100) % 4, Random.Range(1.0f, 3.0f));
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 生成クラス
+        /// </summary>
         private void CreateObject()
         {
             float setSpeed = Random.Range(speed / 2, speed);
@@ -122,34 +146,40 @@ namespace Kud.MainGame
                     case OBJECT_TYPE.Human:
                         for(int j = 0; j < humanMaxNum; j++)
                         {
-                            HitObject human = Instantiate(hitObjects[i]);
+                            HumanObject human = (HumanObject)Instantiate(hitObjects[i]);
                             human.transform.SetParent(content.transform, true);
                             human.transform.position = new Vector3(MapManager.Instance.LinePosxs[1], MapManager.Instance.GetOverDisplayTop(human.transform.localScale.y), 0);
+                            human.gameObject.SetActive(false);
                             humanObjecs.Add(human);
                         }
                         break;
                     case OBJECT_TYPE.Protein:
                         for(int j= 0; j < proteinMaxNum; j++)
                         {
-                            HitObject protein = Instantiate(hitObjects[i]);
+                            ProteinObject protein = (ProteinObject)Instantiate(hitObjects[i]);
                             protein.transform.SetParent(content.transform, true);
                             protein.transform.position = new Vector3(MapManager.Instance.LinePosxs[1], MapManager.Instance.GetOverDisplayTop(protein.transform.localScale.y), 0);
+                            protein.gameObject.SetActive(false);
                             proteinObjecs.Add(protein);
                         }
                         break;
                     case OBJECT_TYPE.Hurdle:
                         for(int j = 0; j < hurdleMaxNum; j++)
                         {
-                            HitObject hurdle = Instantiate(hitObjects[i]);
+                            HurdleObject hurdle = (HurdleObject)Instantiate(hitObjects[i]);
                             hurdle.transform.SetParent(content.transform, true);
                             hurdle.transform.position = new Vector3(MapManager.Instance.LinePosxs[1], MapManager.Instance.GetOverDisplayTop(hurdle.transform.localScale.y), 0);
-                            proteinObjecs.Add(hurdle);
+                            hurdle.gameObject.SetActive(false);
+                            hurdleObjecs.Add(hurdle);
                         }
                         break;
                 }
             }
         }
 
+        /// <summary>
+        /// 加速
+        /// </summary>
         private void UpdateSpeed()
         {
             if(speed >= maxSpeed)
@@ -159,6 +189,22 @@ namespace Kud.MainGame
             }
 
             speed += accele * Time.deltaTime;
+        }
+
+        public void UnActiveObject(OBJECT_TYPE _type)
+        {
+            switch (_type)
+            {
+                case OBJECT_TYPE.Human:
+                    humanCurrentNum--;
+                    break;
+                case OBJECT_TYPE.Protein:
+                    proteinCurrentNum--;
+                    break;
+                case OBJECT_TYPE.Hurdle:
+                    hurdleCurrentNum--;
+                    break;
+            }
         }
 
         /// <summary>

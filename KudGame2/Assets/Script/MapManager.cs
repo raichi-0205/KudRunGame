@@ -48,6 +48,11 @@ namespace Kud.MainGame
             return Camera.main.ScreenToWorldPoint(new Vector3(0, topPos, 0)).y + _height / 2;
         }
 
+        public float GetOverDisplayUnder(float _height)
+        {
+            return Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0)).y - _height / 2;
+        }
+
         /// <summary>
         /// 列の中心座標を求める
         /// </summary>
