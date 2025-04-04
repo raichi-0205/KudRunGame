@@ -16,6 +16,7 @@ namespace Kud.MainGame
 
         [Header("Player")]
         [SerializeField] Player player;                 // プレイヤー
+        public Player Player { get { return player; } }
 
         [Header("Speed")]
         [SerializeField] float speed = 1;               // 現在の速度
@@ -36,10 +37,14 @@ namespace Kud.MainGame
         [SerializeField] float thinkingMaxTime = 3;     // 次に生成を判断する時間の最大時間
         [SerializeField] float addThinkingTime = 1;     // 生成しないときに次生成判断する時間の指定
         [SerializeField] GameObject content;            // 生成したオブジェクトの保管
+        public HitObject[] HitObjects { get { return hitObjects; } }
 
         List<HumanObject> humanObjecs = new List<HumanObject>();
         List<ProteinObject> proteinObjecs = new List<ProteinObject>();
         List<HurdleObject> hurdleObjecs = new List<HurdleObject>();
+        public List<HumanObject> HumanObjects { get { return humanObjecs; } }
+        public List<ProteinObject> ProteinObjects { get { return proteinObjecs; } }
+        public List<HurdleObject> HurdleObjects { get { return hurdleObjecs; } }
 
         [Header("Created Object")]
         [SerializeField] int humanCurrentNum = 0;       // 画面に出ているヒューマンオブジェクトの数

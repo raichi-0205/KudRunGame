@@ -7,6 +7,9 @@ namespace Kud.MainGame
 {
     public class Player : MonoBehaviour
     {
+        [SerializeField] BoxCollider2D collider;
+        public BoxCollider2D Collider { get { return collider; } }
+
         [SerializeField] int colum;                 // 初期列
         public int Colum { get { return colum; } }
         private List<float> linePosxs;
