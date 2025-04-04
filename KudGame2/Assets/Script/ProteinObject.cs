@@ -23,5 +23,11 @@ namespace Kud.MainGame
         {
             base.Update();
         }
+
+        protected override void OnHitPlayer(Player _player)
+        {
+            base.OnHitPlayer(_player);
+            _player.CatchProtein();
+        }
     }
 }

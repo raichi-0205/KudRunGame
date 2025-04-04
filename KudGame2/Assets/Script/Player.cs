@@ -10,6 +10,13 @@ namespace Kud.MainGame
         [SerializeField] BoxCollider2D collider;
         public BoxCollider2D Collider { get { return collider; } }
 
+        [SerializeField] SpriteRenderer spriteRenderer;
+        [SerializeField] Color defaultColor = Color.white;
+        [SerializeField] Color awaikingColor = Color.yellow;
+        [SerializeField] bool isAwaiking = false;
+        [SerializeField] float awaikingTimer = 10.0f;
+        [SerializeField] float currentAwaikingTime = 0;
+
         [SerializeField] int colum;                 // 初期列
         public int Colum { get { return colum; } }
         private List<float> linePosxs;
@@ -41,6 +48,13 @@ namespace Kud.MainGame
         void Update()
         {
             Move();
+
+            currentAwaikingTime -= Time.deltaTime;
+            if(currentAwaikingTime < 0)
+            {
+                isAwaiking = false;
+                spriteRenderer.color = defaultColor;
+            }
 
             // debug
             if (Input.GetKeyDown(KeyCode.LeftArrow))
@@ -94,6 +108,13 @@ namespace Kud.MainGame
             colum = Mathf.Clamp(colum, 0, MapManager.Instance.Split - 1);
             length = Mathf.Abs(linePosxs[colum] - transform.position.x);
             speed = length / moveTime;        // 必要な速度を求める
+        }
+
+        public void CatchProtein()
+        {
+            spriteRenderer.color = awaikingColor;
+            isAwaiking = true;
+            currentAwaikingTime = awaikingTimer;
         }
     }
 

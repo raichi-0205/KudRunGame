@@ -50,7 +50,7 @@ namespace Kud.MainGame
                 Player player = GameManager.Instance.Player;
                 if(CheckSquareCollision(player.gameObject, left, right, top, bottom))
                 {
-                    OnHitPlayer();
+                    OnHitPlayer(player);
                     return;
                 }
 
@@ -159,7 +159,7 @@ namespace Kud.MainGame
         /// <summary>
         /// プレイヤーとの当たり判定時の処理
         /// </summary>
-        protected virtual void OnHitPlayer()
+        protected virtual void OnHitPlayer(Player _player)
         {
             Debug.Log($"[Hit] Player");
         }
