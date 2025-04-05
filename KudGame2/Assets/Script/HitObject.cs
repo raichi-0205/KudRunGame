@@ -58,7 +58,7 @@ namespace Kud.MainGame
                 {
                     if(humanObj == this)
                     {
-                        return;
+                        continue;
                     }
 
                     if (CheckThinkingCollision(humanObj.gameObject, transform.position.x, top))
@@ -74,7 +74,7 @@ namespace Kud.MainGame
                 {
                     if (proteinObj == this)
                     {
-                        return;
+                        continue;
                     }
 
                     if (CheckThinkingCollision(proteinObj.gameObject, transform.position.x, top))
@@ -90,7 +90,7 @@ namespace Kud.MainGame
                 {
                     if (hurdleObj == this)
                     {
-                        return;
+                        continue;
                     }
 
                     if(CheckThinkingCollision(hurdleObj.gameObject, transform.position.x, top))
