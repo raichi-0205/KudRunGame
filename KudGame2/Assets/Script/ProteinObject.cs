@@ -28,6 +28,8 @@ namespace Kud.MainGame
         {
             base.OnHitPlayer(_player);
             _player.CatchProtein();
+            gameObject.SetActive(false);
+            GameManager.Instance.UnActiveObject(objectType);
         }
     }
 }
