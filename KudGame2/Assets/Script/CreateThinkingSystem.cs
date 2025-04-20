@@ -92,29 +92,34 @@ namespace Kud.MainGame
                 int createCol = ThinkingCol(lineFlag, objectType, ref speed);          // 生成する列
                 Debug.Log($"[Create] ColumThinking:{createCol}");
 
-                // Todo: ハードルは長さ決める
-
                 switch (objectType)
                 {
                     case GameManager.OBJECT_TYPE.Human:
                         if (GameManager.Instance.HumanCurrentNum < humanMaxNum)
                         {
                             Debug.Log($"[Create] Human:{GameManager.Instance.HumanCurrentNum}");
-                            GameManager.Instance.StartObject(humanObjecs, GameManager.OBJECT_TYPE.Human, createCol, speed);
+                            GameManager.Instance.StartObject(GameManager.Instance.FindCreateActiveObject(humanObjecs), createCol, speed);
                         }
                         break;
                     case GameManager.OBJECT_TYPE.Protein:
                         if (GameManager.Instance.ProteinCurrentNum < proteinMaxNum)
                         {
                             Debug.Log($"[Create] Protein:{GameManager.Instance.ProteinCurrentNum}");
-                            GameManager.Instance.StartObject(proteinObjecs, GameManager.OBJECT_TYPE.Protein, createCol, speed);
+                            GameManager.Instance.StartObject(GameManager.Instance.FindCreateActiveObject(proteinObjecs), createCol, speed);
                         }
                         break;
                     case GameManager.OBJECT_TYPE.Hurdle:
                         if (GameManager.Instance.HurdleCurrentNum < hurdleMaxNum)
                         {
                             Debug.Log($"[Create] Hurdle:{GameManager.Instance.HurdleCurrentNum}");
-                            GameManager.Instance.StartObject(hurdleObjecs, GameManager.OBJECT_TYPE.Hurdle, createCol, speed);
+                            HurdleObject hurdleObject = (HurdleObject)GameManager.Instance.FindCreateActiveObject(hurdleObjecs);
+                            if (hurdleObject != null)
+                            {
+                                // 長さを決める
+                                hurdleObject.SetLength(Random.Range(hurdleMinLength, hurdleMaxLength));
+                                // 警告を出して止める
+                                GameManager.Instance.StartObject(hurdleObject, createCol, speed);
+                            }
                         }
                         break;
                     default:
@@ -220,6 +225,13 @@ namespace Kud.MainGame
             return GameManager.OBJECT_TYPE.Num;         // 生成失敗
         }
 
+        /// <summary>
+        /// 生成する列を判断する
+        /// </summary>
+        /// <param name="_lineFlag"></param>
+        /// <param name="_objectType"></param>
+        /// <param name="_speed"></param>
+        /// <returns></returns>
         private int ThinkingCol(bool[] _lineFlag, GameManager.OBJECT_TYPE _objectType, ref float _speed)
         {
             switch (_objectType)

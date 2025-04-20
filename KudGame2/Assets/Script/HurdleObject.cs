@@ -22,5 +22,14 @@ namespace Kud.MainGame
         {
             base.Update();
         }
+
+        /// <summary>
+        /// 長さの設定
+        /// </summary>
+        /// <param name="_length"></param>
+        public void SetLength(float _length)
+        {
+            transform.localScale = new Vector2(transform.localScale.x, _length);
+        }
     }
 }

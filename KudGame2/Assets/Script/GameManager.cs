@@ -94,27 +94,32 @@ namespace Kud.MainGame
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="_objects"></param>
-        public void StartObject<T>(List<T> _objects, OBJECT_TYPE _type, int _col, float _speed) where T : HitObject
+        public HitObject FindCreateActiveObject<T>(List<T> _objects) where T : HitObject
         {
             for (int i = 0; i < _objects.Count; i++)
             {
                 if (!_objects[i].gameObject.activeSelf)
                 {
-                    _objects[i].Initialize(_col, _speed);
-                    switch (_type)
-                    {
-                        case OBJECT_TYPE.Human:
-                            humanCurrentNum++;
-                            break;
-                        case OBJECT_TYPE.Protein:
-                            proteinCurrentNum++;
-                            break;
-                        case OBJECT_TYPE.Hurdle:
-                            hurdleCurrentNum++;
-                            break;
-                    }
-                    break;
+                    return _objects[i];
                 }
+            }
+            return null;
+        }
+
+        public void StartObject(HitObject _object, int _col, float _speed)
+        {
+            _object.Initialize(_col, _speed);
+            switch (_object)
+            {
+                case HumanObject humanObject:
+                    humanCurrentNum++;
+                    break;
+                case ProteinObject proteinObject:
+                    proteinCurrentNum++;
+                    break;
+                case HurdleObject hurdleObject:
+                    hurdleCurrentNum++;
+                    break;
             }
         }
 
