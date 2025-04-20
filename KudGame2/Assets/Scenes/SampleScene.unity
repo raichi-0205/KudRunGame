@@ -1508,6 +1508,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d7e0978aca6cca4c828687fc6b68f9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collider: {fileID: 0}
+  spriteRenderer: {fileID: 605191432}
+  defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  awaikingColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  isAwaiking: 0
+  awaikingTimer: 10
+  currentAwaikingTime: 0
   colum: 1
   moveTime: 0.25
   leftButton: {fileID: 246125120}
@@ -1597,6 +1604,7 @@ GameObject:
   m_Component:
   - component: {fileID: 755517254}
   - component: {fileID: 755517253}
+  - component: {fileID: 755517255}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1635,6 +1643,7 @@ MonoBehaviour:
   thinkingMinTime: 0.5
   thinkingMaxTime: 3
   addThinkingTime: 1
+  createThinkingSystem: {fileID: 755517255}
   content: {fileID: 1033611634}
   humanCurrentNum: 0
   proteinCurrentNum: 0
@@ -1654,6 +1663,41 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &755517255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 755517252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bc56967056a687478fd574e43dc94f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  warnigTime: 3
+  onceSetObjectMax: 2
+  humanMaxNum: 6
+  proteinMaxNum: 1
+  hurdleMaxNum: 1
+  hurdleMinLength: 3
+  hurdleMaxLength: 10
+  nextThinkingTime: 0
+  thinkingMinTime: 0.5
+  thinkingMaxTime: 3
+  addThinkingTime: 1
+  humanMaxSpeed: 3
+  humanMinSpeed: 1
+  proteinMaxSpeed: 1.5
+  proteinMinSpeed: 1.5
+  hurdleMaxSpeed: 1.5
+  hurdleMinSpeed: 1.5
+  humanCreatePer: 25
+  proteinCreatePer: 40
+  hurdleCreatePer: 35
+  awakingHumanCreatePer: 70
+  awakingProteinCreatePer: 10
+  awakingHurdleCreatePer: 20
 --- !u!1 &773569957
 GameObject:
   m_ObjectHideFlags: 0

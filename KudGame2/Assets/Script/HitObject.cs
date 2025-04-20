@@ -8,7 +8,12 @@ namespace Kud.MainGame
         public BoxCollider2D Collider { get { return collider; } }
         [SerializeField] protected float speed;
         public float Speed { get { return speed; } }
+        [SerializeField] protected int col;         // 生成された列
+        public int Col { get { return col; } }
+        [SerializeField] protected bool isInDisplay = false;
+        public bool IsInDisplay { get { return isInDisplay; } }
         protected float overUnderY = 0;
+        protected float overTopY = float.MaxValue;
         protected GameManager.OBJECT_TYPE objectType;
 
         /// <summary>
@@ -22,6 +27,9 @@ namespace Kud.MainGame
             transform.position = new Vector3(MapManager.Instance.LinePosxs[_col], MapManager.Instance.GetOverDisplayTop(transform.localScale.y), 0);
             speed = _speed;
             overUnderY = MapManager.Instance.GetOverDisplayUnder(transform.localScale.y);
+            overTopY = MapManager.Instance.GetOverDisplayTop(0);
+            col = _col;
+            isInDisplay = false;
         }
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -36,11 +44,18 @@ namespace Kud.MainGame
             transform.position += Vector3.down * speed * Time.deltaTime;
             if (transform.position.y < overUnderY)
             {
+                // オブジェクトを不活性にする
                 gameObject.SetActive(false);
                 GameManager.Instance.UnActiveObject(objectType);
             }
             else
             {
+                // 画面内に入っているか
+                if(!isInDisplay && transform.position.y + transform.localScale.y / 2 < overTopY)
+                {
+                    isInDisplay = true;
+                }
+
                 float left = transform.position.x - transform.localScale.x / 2;
                 float right = transform.position.x + transform.localScale.x / 2;
                 float top = transform.position.y + transform.localScale.y / 2;

@@ -36,6 +36,7 @@ namespace Kud.MainGame
         [SerializeField] float thinkingMinTime = 0.5f;  // 次に生成を判断する時間の最小時間
         [SerializeField] float thinkingMaxTime = 3;     // 次に生成を判断する時間の最大時間
         [SerializeField] float addThinkingTime = 1;     // 生成しないときに次生成判断する時間の指定
+        [SerializeField] CreateThinkingSystem createThinkingSystem;
         [SerializeField] GameObject content;            // 生成したオブジェクトの保管
         public HitObject[] HitObjects { get { return hitObjects; } }
 
@@ -50,6 +51,9 @@ namespace Kud.MainGame
         [SerializeField] int humanCurrentNum = 0;       // 画面に出ているヒューマンオブジェクトの数
         [SerializeField] int proteinCurrentNum = 0;     // 画面に出ているプロテインの数
         [SerializeField] int hurdleCurrentNum = 0;      // 画面に出ているハードルの数
+        public int HumanCurrentNum { get { return humanCurrentNum; } set { humanCurrentNum = value; } }
+        public int ProteinCurrentNum { get { return proteinCurrentNum; } set { proteinCurrentNum = value; } }
+        public int HurdleCurrentNum { get { return hurdleCurrentNum; } set { hurdleCurrentNum = value; } }
 
         void Initialize()
         {
@@ -60,6 +64,8 @@ namespace Kud.MainGame
 
             // オブジェクト生成
             CreateObject();
+
+            createThinkingSystem.Initialize(humanObjecs, proteinObjecs, hurdleObjecs);
         }
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -80,6 +86,8 @@ namespace Kud.MainGame
         /// </summary>
         private void ThinkingCreateObject()
         {
+            createThinkingSystem.Thinking();
+#if false
             if(nextThinkingTime > 0)
             {
                 nextThinkingTime -= Time.deltaTime;
@@ -119,6 +127,7 @@ namespace Kud.MainGame
                     return;
             }
             nextThinkingTime = Random.Range(thinkingMinTime, thinkingMaxTime);      // 指定範囲秒を次の生成判断の時間にする
+#endif
         }
 
         /// <summary>
@@ -126,13 +135,25 @@ namespace Kud.MainGame
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="_objects"></param>
-        private void StartObject<T>(List<T> _objects) where T : HitObject
+        public void StartObject<T>(List<T> _objects, OBJECT_TYPE _type, int _col, float _speed) where T : HitObject
         {
             for (int i = 0; i < _objects.Count; i++)
             {
                 if (!_objects[i].gameObject.activeSelf)
                 {
-                    _objects[i].Initialize(Random.Range(0, 100) % 4, Random.Range(1.0f, 3.0f));
+                    _objects[i].Initialize(_col, _speed);
+                    switch (_type)
+                    {
+                        case OBJECT_TYPE.Human:
+                            humanCurrentNum++;
+                            break;
+                        case OBJECT_TYPE.Protein:
+                            proteinCurrentNum++;
+                            break;
+                        case OBJECT_TYPE.Hurdle:
+                            hurdleCurrentNum++;
+                            break;
+                    }
                     break;
                 }
             }

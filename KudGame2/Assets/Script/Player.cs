@@ -18,6 +18,8 @@ namespace Kud.MainGame
         [SerializeField] float currentAwaikingTime = 0;
 
         [SerializeField] int colum;                 // 初期列
+        
+        public bool IsAwaiking { get { return isAwaiking; } }
         public int Colum { get { return colum; } }
         private List<float> linePosxs;
 
@@ -49,12 +51,7 @@ namespace Kud.MainGame
         {
             Move();
 
-            currentAwaikingTime -= Time.deltaTime;
-            if(currentAwaikingTime < 0)
-            {
-                isAwaiking = false;
-                spriteRenderer.color = defaultColor;
-            }
+            Awaiking();
 
             // debug
             if (Input.GetKeyDown(KeyCode.LeftArrow))
@@ -86,6 +83,30 @@ namespace Kud.MainGame
                 else
                 {
                     transform.position += new Vector3(posx, 0, 0);
+                }
+            }
+        }
+
+        private void Awaiking()
+        {
+            if (isAwaiking)
+            {
+                currentAwaikingTime -= Time.deltaTime;
+                if (currentAwaikingTime < 0)
+                {
+                    isAwaiking = false;
+                    spriteRenderer.color = defaultColor;
+                }
+                else if (currentAwaikingTime < awaikingTimer / 4)
+                {
+                    if ((int)(currentAwaikingTime * 10) % 2 == 0)
+                    {
+                        spriteRenderer.color = defaultColor;
+                    }
+                    else
+                    {
+                        spriteRenderer.color = awaikingColor;
+                    }
                 }
             }
         }
