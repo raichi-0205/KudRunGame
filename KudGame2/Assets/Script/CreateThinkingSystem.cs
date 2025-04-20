@@ -124,37 +124,6 @@ namespace Kud.MainGame
                 }
             }
 
-#if false
-            GameManager.OBJECT_TYPE objectNum = (GameManager.OBJECT_TYPE)Random.Range(0, (int)GameManager.OBJECT_TYPE.Num);
-            switch (objectNum)
-            {
-                case GameManager.OBJECT_TYPE.Human:
-                    if (GameManager.Instance.HumanCurrentNum < humanMaxNum)
-                    {
-                        Debug.Log($"[Create] Human:{GameManager.Instance.HumanCurrentNum}");
-                        GameManager.Instance.StartObject(humanObjecs, GameManager.OBJECT_TYPE.Human);
-                    }
-                    break;
-                case GameManager.OBJECT_TYPE.Protein:
-                    if (GameManager.Instance.ProteinCurrentNum < proteinMaxNum)
-                    {
-                        Debug.Log($"[Create] Protein:{GameManager.Instance.ProteinCurrentNum}");
-                        GameManager.Instance.StartObject(proteinObjecs, GameManager.OBJECT_TYPE.Protein);
-                    }
-                    break;
-                case  GameManager.OBJECT_TYPE.Hurdle:
-                    if (GameManager.Instance.HurdleCurrentNum < hurdleMaxNum)
-                    {
-                        Debug.Log($"[Create] Hurdle:{GameManager.Instance.HurdleCurrentNum}");
-                        GameManager.Instance.StartObject(hurdleObjecs, GameManager.OBJECT_TYPE.Hurdle);
-                    }
-                    break;
-                default:
-                    // 生成しない
-                    nextThinkingTime = addThinkingTime;        // 指定秒後に生成判断 
-                    return;
-            }
-#endif
             nextThinkingTime = Random.Range(thinkingMinTime, thinkingMaxTime);      // 指定範囲秒を次の生成判断の時間にする
         }
 
