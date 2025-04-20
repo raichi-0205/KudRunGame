@@ -87,47 +87,6 @@ namespace Kud.MainGame
         private void ThinkingCreateObject()
         {
             createThinkingSystem.Thinking();
-#if false
-            if(nextThinkingTime > 0)
-            {
-                nextThinkingTime -= Time.deltaTime;
-                return;
-            }
-
-            OBJECT_TYPE objectNum = (OBJECT_TYPE)Random.Range(0, (int)OBJECT_TYPE.Num);
-            switch (objectNum)
-            {
-                case OBJECT_TYPE.Human:
-                    if(humanCurrentNum < humanMaxNum)
-                    {
-                        Debug.Log($"[Create] Human:{humanCurrentNum}");
-                        humanCurrentNum++;
-                        StartObject(humanObjecs);
-                    }
-                    break;
-                case OBJECT_TYPE.Protein:
-                    if(proteinCurrentNum < proteinMaxNum)
-                    {
-                        Debug.Log($"[Create] Protein:{proteinCurrentNum}");
-                        proteinCurrentNum++;
-                        StartObject(proteinObjecs);
-                    }
-                    break;
-                case OBJECT_TYPE.Hurdle:
-                    if(hurdleCurrentNum < hurdleMaxNum)
-                    {
-                        Debug.Log($"[Create] Hurdle:{hurdleCurrentNum}");
-                        hurdleCurrentNum++;
-                        StartObject(hurdleObjecs);
-                    }
-                    break;
-                default:
-                    // 生成しない
-                    nextThinkingTime = addThinkingTime;        // 指定秒後に生成判断 
-                    return;
-            }
-            nextThinkingTime = Random.Range(thinkingMinTime, thinkingMaxTime);      // 指定範囲秒を次の生成判断の時間にする
-#endif
         }
 
         /// <summary>
