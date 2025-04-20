@@ -413,6 +413,8 @@ namespace Kud.MainGame
             int num = 0;
             List<Probability> probabilities = new List<Probability>();
 
+            _speed = Random.Range(proteinMinSpeed, proteinMaxSpeed);
+
             // 最も離れた位置を探す
             if (colum < line / 2)
             {
@@ -489,6 +491,8 @@ namespace Kud.MainGame
             int far = 0;
             int candidate = -1;
             int num = 0;
+
+            _speed = Random.Range(hurdleMinSpeed, hurdleMaxSpeed);
 
             // 最も離れた位置を探す
             if (colum < line / 2)
