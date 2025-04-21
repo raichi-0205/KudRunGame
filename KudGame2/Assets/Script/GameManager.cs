@@ -26,16 +26,9 @@ namespace Kud.MainGame
 
         [Header("Create Object")]
         [SerializeField, Kud.Editor.NamedArray(typeof(OBJECT_TYPE))] HitObject[] hitObjects;        // 当たり判定のあるオブジェクト
-        [SerializeField] float warnigTime = 3;          // 警告秒数
         [SerializeField] int humanMaxNum = 6;           // 画面に出てくるヒューマンオブジェクトの最大数
         [SerializeField] int proteinMaxNum = 1;         // 画面に出てくるプロテインの最大数
         [SerializeField] int hurdleMaxNum = 1;          // 画面に出てくるハードルの最大数
-        [SerializeField] float hurdleMinLength = 3;     // ハードルの最低の長さ
-        [SerializeField] float hurdleMaxLength = 10;    // ハードルの最高の長さ
-        [SerializeField] float nextThinkingTime = 0;    // 次に生成を判断する時間
-        [SerializeField] float thinkingMinTime = 0.5f;  // 次に生成を判断する時間の最小時間
-        [SerializeField] float thinkingMaxTime = 3;     // 次に生成を判断する時間の最大時間
-        [SerializeField] float addThinkingTime = 1;     // 生成しないときに次生成判断する時間の指定
         [SerializeField] CreateThinkingSystem createThinkingSystem;
         [SerializeField] GameObject content;            // 生成したオブジェクトの保管
         public HitObject[] HitObjects { get { return hitObjects; } }
@@ -109,15 +102,19 @@ namespace Kud.MainGame
         public void StartObject(HitObject _object, int _col, float _speed)
         {
             _object.Initialize(_col, _speed);
-            switch (_object)
+        }
+
+        public void HitObjectCount(OBJECT_TYPE _type)
+        {
+            switch (_type)
             {
-                case HumanObject humanObject:
+                case OBJECT_TYPE.Human:
                     humanCurrentNum++;
                     break;
-                case ProteinObject proteinObject:
+                case OBJECT_TYPE.Protein:
                     proteinCurrentNum++;
                     break;
-                case HurdleObject hurdleObject:
+                case OBJECT_TYPE.Hurdle:
                     hurdleCurrentNum++;
                     break;
             }

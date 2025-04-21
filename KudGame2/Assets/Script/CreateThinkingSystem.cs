@@ -18,6 +18,8 @@ namespace Kud.MainGame
 
         [SerializeField] const int line = 4;
         [SerializeField] float warnigTime = 3;          // 警告秒数
+        [SerializeField] float[] currentWarningTimes;   // 現在の警告秒数
+        [SerializeField] GameObject warningObject;      // 警告のオブジェクト
         [SerializeField] int onceSetObjectMax = 2;      // 一度に生成するオブジェクトの数
         [SerializeField] int humanMaxNum = 6;           // 画面に出てくるヒューマンオブジェクトの最大数
         [SerializeField] int proteinMaxNum = 1;         // 画面に出てくるプロテインの最大数
@@ -50,16 +52,70 @@ namespace Kud.MainGame
         List<ProteinObject> proteinObjecs;
         List<HurdleObject> hurdleObjecs;
         bool[] hurdleWarningLine;
+        GameObject[] warningObjects;
         Dictionary<int, HitObject> outObjects = new Dictionary<int, HitObject>();       // オブジェクトがかぶって出現することはないので一つでいい
 
+        /// <summary>
+        /// 初期化処理
+        /// </summary>
+        /// <param name="_humanObjects"></param>
+        /// <param name="_proteinObejcts"></param>
+        /// <param name="_hurdleObjects"></param>
         public void Initialize(List<HumanObject> _humanObjects, List<ProteinObject> _proteinObejcts, List<HurdleObject> _hurdleObjects)
         {
             humanObjecs = _humanObjects;
             proteinObjecs = _proteinObejcts;
             hurdleObjecs = _hurdleObjects;
             hurdleWarningLine = new bool[line];
+            currentWarningTimes = new float[line];
+            warningObjects = new GameObject[line];
+
+            GameObject warningParent = new GameObject("Warnings");
+            for(int i = 0; i < line; i++)
+            {
+                warningObjects[i] = Instantiate(warningObject);
+                warningObjects[i].transform.SetParent(warningParent.transform);
+                warningObjects[i].transform.position = new Vector3(MapManager.Instance.LinePosxs[i], 0, 0);
+                warningObjects[i].SetActive(false);
+            }
         }
 
+        public void Update()
+        {
+            UpdateWarningTime();
+        }
+
+        /// <summary>
+        /// 警告時間の更新
+        /// </summary>
+        private void UpdateWarningTime()
+        {
+            for(int i = 0; i < hurdleWarningLine.Length; i++)
+            {
+                if (hurdleWarningLine[i])
+                {
+                    currentWarningTimes[i] += Time.deltaTime;
+                    if(currentWarningTimes[i] >= warnigTime)
+                    {
+                        hurdleWarningLine[i] = false;
+                        currentWarningTimes[i] = 0;
+                        warningObjects[i].SetActive(false);
+                        HurdleObject hurdleObject = (HurdleObject)GameManager.Instance.FindCreateActiveObject(hurdleObjecs);
+                        if (hurdleObject != null)
+                        {
+                            // 長さを決める
+                            hurdleObject.SetLength(Random.Range(hurdleMinLength, hurdleMaxLength));
+                            // 警告を出して止める
+                            GameManager.Instance.StartObject(hurdleObject, i, Random.Range(hurdleMinSpeed, hurdleMaxSpeed));     // Hack: 速度算出を治す
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 生成内容判断
+        /// </summary>
         public void Thinking()
         {
             if (nextThinkingTime > 0)
@@ -99,6 +155,7 @@ namespace Kud.MainGame
                         {
                             Debug.Log($"[Create] Human:{GameManager.Instance.HumanCurrentNum}");
                             GameManager.Instance.StartObject(GameManager.Instance.FindCreateActiveObject(humanObjecs), createCol, speed);
+                            GameManager.Instance.HitObjectCount(GameManager.OBJECT_TYPE.Human);
                         }
                         break;
                     case GameManager.OBJECT_TYPE.Protein:
@@ -106,20 +163,16 @@ namespace Kud.MainGame
                         {
                             Debug.Log($"[Create] Protein:{GameManager.Instance.ProteinCurrentNum}");
                             GameManager.Instance.StartObject(GameManager.Instance.FindCreateActiveObject(proteinObjecs), createCol, speed);
+                            GameManager.Instance.HitObjectCount(GameManager.OBJECT_TYPE.Protein);
                         }
                         break;
                     case GameManager.OBJECT_TYPE.Hurdle:
                         if (GameManager.Instance.HurdleCurrentNum < hurdleMaxNum)
                         {
                             Debug.Log($"[Create] Hurdle:{GameManager.Instance.HurdleCurrentNum}");
-                            HurdleObject hurdleObject = (HurdleObject)GameManager.Instance.FindCreateActiveObject(hurdleObjecs);
-                            if (hurdleObject != null)
-                            {
-                                // 長さを決める
-                                hurdleObject.SetLength(Random.Range(hurdleMinLength, hurdleMaxLength));
-                                // 警告を出して止める
-                                GameManager.Instance.StartObject(hurdleObject, createCol, speed);
-                            }
+                            hurdleWarningLine[createCol] = true;
+                            warningObjects[createCol].SetActive(true);
+                            GameManager.Instance.HitObjectCount(GameManager.OBJECT_TYPE.Hurdle);
                         }
                         break;
                     default:
@@ -132,6 +185,7 @@ namespace Kud.MainGame
             nextThinkingTime = Random.Range(thinkingMinTime, thinkingMaxTime);      // 指定範囲秒を次の生成判断の時間にする
         }
 
+        #region 生成オブジェクトの判断
         /// <summary>
         /// どのオブジェクトを生成するか
         /// </summary>
@@ -224,7 +278,8 @@ namespace Kud.MainGame
             }
             return GameManager.OBJECT_TYPE.Num;         // 生成失敗
         }
-
+        #endregion
+        #region 生成列の判断
         /// <summary>
         /// 生成する列を判断する
         /// </summary>
@@ -589,7 +644,7 @@ namespace Kud.MainGame
             }
             return _defaultColum;
         }
-
+        #endregion
         #region 生成可否チェック
         /// <summary>
         /// 

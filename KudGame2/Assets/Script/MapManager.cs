@@ -6,6 +6,7 @@ namespace Kud.MainGame
 {
     public class MapManager : SingletonMonoBehaviour<MapManager>
     {
+        [SerializeField] GameObject backGround;
         [SerializeField] float bothEndsLineWidth;   // 端の線の幅
         [SerializeField] float lineWidth;           // 線の幅
         [SerializeField] int split;                 // 分割数
@@ -28,7 +29,10 @@ namespace Kud.MainGame
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
-
+            if(backGround != null)
+            {
+                backGround.transform.localScale = Camera.main.ScreenToWorldPoint(new Vector2(Camera.main.pixelWidth, Camera.main.pixelHeight)) * 2;
+            }
         }
 
         // Update is called once per frame
