@@ -54,6 +54,11 @@ namespace Kud.MainGame
         [SerializeField] int blowAway = 5;              // 人を飛ばしたときの加算
         private float scoreCount = 0;
 
+        [Header("Result")]
+        [SerializeField] ResultMenu resultMenu;
+
+        private bool isGameStart = false;
+
         void Initialize()
         {
             accele = (maxSpeed - speed) / second;       // 最高速度から初期速度を引いて最高速度に到達するまでの時間で割った数値を加速値にする
@@ -67,6 +72,9 @@ namespace Kud.MainGame
             createThinkingSystem.Initialize(humanObjecs, proteinObjecs, hurdleObjecs);
 
             score = 0;
+            isGameStart = true;
+
+            resultMenu.Initialize();
         }
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -78,6 +86,11 @@ namespace Kud.MainGame
         // Update is called once per frame
         void Update()
         {
+            if (!isGameStart)
+            {
+                return;
+            }
+
             UpdateSpeed();
             ThinkingCreateObject();
             UpdateScore();
@@ -235,6 +248,29 @@ namespace Kud.MainGame
         public void BlowAddScore()
         {
             score += blowAway;
+        }
+
+        /// <summary>
+        /// 全てのオブジェクトを停止
+        /// </summary>
+        public void AllObjectStop()
+        {
+            ObjectAllStop(humanObjecs);
+            ObjectAllStop(proteinObjecs);
+            ObjectAllStop(hurdleObjecs);
+            player.Stop();
+            isGameStart = false;
+
+            ScoreManager.Instance.Score = score;
+            resultMenu.Open();
+
+            void ObjectAllStop<T>(List<T> _objects) where T : HitObject
+            {
+                foreach (HitObject hitObject in _objects)
+                {
+                    hitObject.ActiveStop();
+                }
+            }
         }
     }
 

@@ -31,6 +31,8 @@ namespace Kud.MainGame
         [SerializeField] Button leftButton;
         [SerializeField] Button rightButton;
 
+        private bool isStop = false;
+
         public void Initialize()
         {
             leftButton.onClick.AddListener(() => { OnButton(true); });
@@ -49,6 +51,11 @@ namespace Kud.MainGame
         // Update is called once per frame
         void Update()
         {
+            if (isStop)
+            {
+                return;
+            }
+
             Move();
 
             Awaiking();
@@ -136,6 +143,11 @@ namespace Kud.MainGame
             spriteRenderer.color = awaikingColor;
             isAwaiking = true;
             currentAwaikingTime = awaikingTimer;
+        }
+
+        public void Stop()
+        {
+            isStop = true;
         }
     }
 

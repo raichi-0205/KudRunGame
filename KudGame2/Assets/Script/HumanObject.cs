@@ -27,7 +27,6 @@ namespace Kud.MainGame
         {
             if (isHit) 
             {
-                //transform.localRotation.SetEulerRotation(0, 0, rotationAxis);       // Hack: 治す
                 transform.localEulerAngles += new Vector3(0, 0, rotationAxis);
                 transform.position += displayOverNormal * 10.0f * Time.deltaTime;
                 Vector3 pos = Camera.main.WorldToScreenPoint(transform.position);
@@ -48,13 +47,20 @@ namespace Kud.MainGame
         protected override void OnHitPlayer(Player _player)
         {
             base.OnHitPlayer(_player);
-            Vector2 scale = Camera.main.WorldToScreenPoint(transform.localScale);                       // オブジェクトのスクリーンサイズ
-            float width = transform.position.x < 0 ? 0 - scale.x : Camera.main.pixelWidth + scale.x;    // 飛ばす左右方向
-            displayOverPos = Camera.main.ScreenToWorldPoint(new Vector3(width, 0, 0));                  // 飛ばす先のワールド座標
-            displayOverNormal = (displayOverPos - _player.transform.position).normalized;               // 飛ばす方向の単位ベクトル
-            displayOverNormal = new Vector3(displayOverNormal.x, Mathf.Abs(displayOverNormal.y));       // 飛ばす方向の単位ベクトルのy軸反転
-            GameManager.Instance.BlowAddScore();                // スコア加算
-            isHit = true;
+            if (_player.IsAwaiking)
+            {
+                Vector2 scale = Camera.main.WorldToScreenPoint(transform.localScale);                       // オブジェクトのスクリーンサイズ
+                float width = transform.position.x < 0 ? 0 - scale.x : Camera.main.pixelWidth + scale.x;    // 飛ばす左右方向
+                displayOverPos = Camera.main.ScreenToWorldPoint(new Vector3(width, 0, 0));                  // 飛ばす先のワールド座標
+                displayOverNormal = (displayOverPos - _player.transform.position).normalized;               // 飛ばす方向の単位ベクトル
+                displayOverNormal = new Vector3(displayOverNormal.x, Mathf.Abs(displayOverNormal.y));       // 飛ばす方向の単位ベクトルのy軸反転
+                GameManager.Instance.BlowAddScore();                // スコア加算
+                isHit = true;
+            }
+            else
+            {
+                GameManager.Instance.AllObjectStop();
+            }
         }
     }
 }

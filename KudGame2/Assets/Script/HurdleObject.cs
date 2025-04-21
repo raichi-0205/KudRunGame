@@ -31,5 +31,11 @@ namespace Kud.MainGame
         {
             transform.localScale = new Vector2(transform.localScale.x, _length);
         }
+
+        protected override void OnHitPlayer(Player _player)
+        {
+            base.OnHitPlayer(_player);
+            GameManager.Instance.AllObjectStop();
+        }
     }
 }

@@ -15,6 +15,7 @@ namespace Kud.MainGame
         protected float overUnderY = 0;
         protected float overTopY = float.MaxValue;
         protected GameManager.OBJECT_TYPE objectType;
+        protected bool isStop = false;
 
         /// <summary>
         /// 初期化処理
@@ -41,6 +42,11 @@ namespace Kud.MainGame
         // Update is called once per frame
         protected virtual void Update()
         {
+            if (isStop)
+            {
+                return;
+            }
+
             transform.position += Vector3.down * speed * Time.deltaTime;
             if (transform.position.y < overUnderY)
             {
@@ -189,6 +195,14 @@ namespace Kud.MainGame
             Debug.Log($"[Hit] Object");
             transform.position += Vector3.up * speed * Time.deltaTime;
             speed = _obj.Speed;
+        }
+
+        /// <summary>
+        /// 停止処理
+        /// </summary>
+        public void ActiveStop()
+        {
+            isStop = true;
         }
     }
 }
