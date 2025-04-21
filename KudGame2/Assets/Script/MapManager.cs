@@ -26,19 +26,10 @@ namespace Kud.MainGame
             }
         }
 
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
+        protected override void Awake()
         {
-            if(backGround != null)
-            {
-                backGround.transform.localScale = Camera.main.ScreenToWorldPoint(new Vector2(Camera.main.pixelWidth, Camera.main.pixelHeight)) * 2;
-            }
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
+            base.Awake();
+            DontDestroyOnLoad(this.gameObject);
         }
 
         /// <summary>

@@ -51,6 +51,13 @@ namespace Kud.MainGame
         // Update is called once per frame
         void Update()
         {
+#if UNITY_EDITOR
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+            }
+#endif
+
             if (isStop)
             {
                 return;
@@ -59,20 +66,6 @@ namespace Kud.MainGame
             Move();
 
             Awaiking();
-
-            // debug
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
-            {
-                colum--;
-                colum = Mathf.Clamp(colum, 0, MapManager.Instance.Split - 1);
-                transform.position = new Vector3(linePosxs[colum], transform.position.y, transform.position.z);
-            }
-            else if (Input.GetKeyDown(KeyCode.RightArrow))
-            {
-                colum++;
-                colum = Mathf.Clamp(colum, 0, MapManager.Instance.Split - 1);
-                transform.position = new Vector3(linePosxs[colum], transform.position.y, transform.position.z);
-            }
         }
 
         private void Move()

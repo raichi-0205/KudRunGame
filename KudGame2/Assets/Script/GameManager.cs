@@ -18,6 +18,9 @@ namespace Kud.MainGame
         [SerializeField] Player player;                 // プレイヤー
         public Player Player { get { return player; } }
 
+        [Header("BackGround")]
+        [SerializeField] BackGround backGround;
+
         [Header("Speed")]
         [SerializeField] float speed = 1;               // 現在の速度
         [SerializeField] float maxSpeed = 10;           // 最大速度
@@ -65,6 +68,7 @@ namespace Kud.MainGame
 
             MapManager.Instance.Initialize();
             player.Initialize();
+            backGround.Initialize();
 
             // オブジェクト生成
             CreateObject();
@@ -72,14 +76,13 @@ namespace Kud.MainGame
             createThinkingSystem.Initialize(humanObjecs, proteinObjecs, hurdleObjecs);
 
             score = 0;
-            isGameStart = true;
 
             resultMenu.Initialize();
         }
 
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
+        protected override void Awake()
         {
+            base.Awake();
             Initialize();
         }
 
@@ -94,6 +97,14 @@ namespace Kud.MainGame
             UpdateSpeed();
             ThinkingCreateObject();
             UpdateScore();
+        }
+
+        /// <summary>
+        /// ゲーム開始
+        /// </summary>
+        public void GameStart()
+        {
+            isGameStart = true;
         }
 
         /// <summary>
