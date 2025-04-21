@@ -48,6 +48,12 @@ namespace Kud.MainGame
         public int ProteinCurrentNum { get { return proteinCurrentNum; } set { proteinCurrentNum = value; } }
         public int HurdleCurrentNum { get { return hurdleCurrentNum; } set { hurdleCurrentNum = value; } }
 
+        [Header("Score")]
+        [SerializeField] int score = 0;
+        [SerializeField] int lengthAdditive = 1;        // 経過時間ごとの増加数
+        [SerializeField] int blowAway = 5;              // 人を飛ばしたときの加算
+        private float scoreCount = 0;
+
         void Initialize()
         {
             accele = (maxSpeed - speed) / second;       // 最高速度から初期速度を引いて最高速度に到達するまでの時間で割った数値を加速値にする
@@ -59,6 +65,8 @@ namespace Kud.MainGame
             CreateObject();
 
             createThinkingSystem.Initialize(humanObjecs, proteinObjecs, hurdleObjecs);
+
+            score = 0;
         }
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -72,6 +80,23 @@ namespace Kud.MainGame
         {
             UpdateSpeed();
             ThinkingCreateObject();
+            UpdateScore();
+        }
+
+        /// <summary>
+        /// スコア更新
+        /// </summary>
+        private void UpdateScore()
+        {
+            if (scoreCount < maxSpeed)
+            {
+                scoreCount += speed * Time.deltaTime;
+            }
+            else
+            {
+                score += lengthAdditive;
+                scoreCount = 0;
+            }
         }
 
         /// <summary>
@@ -202,6 +227,14 @@ namespace Kud.MainGame
             humanCurrentNum = 0;
             proteinCurrentNum = 0;
             hurdleCurrentNum = 0;
+        }
+
+        /// <summary>
+        /// 吹っ飛ばし時のスコア加算
+        /// </summary>
+        public void BlowAddScore()
+        {
+            score += blowAway;
         }
     }
 
