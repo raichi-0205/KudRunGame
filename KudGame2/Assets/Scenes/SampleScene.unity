@@ -1018,6 +1018,7 @@ GameObject:
   m_Component:
   - component: {fileID: 225083946}
   - component: {fileID: 225083947}
+  - component: {fileID: 225083948}
   m_Layer: 0
   m_Name: BackGround
   m_TagString: Untagged
@@ -1095,6 +1096,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &225083948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 225083945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4df295858bf8e349856b5c1fea827e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backGround: {fileID: 225083945}
 --- !u!1 &246125118
 GameObject:
   m_ObjectHideFlags: 0
@@ -2263,7 +2277,7 @@ MonoBehaviour:
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   awaikingColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   isAwaiking: 0
-  awaikingTimer: 10
+  awaikingTimer: 5
   currentAwaikingTime: 0
   colum: 1
   moveTime: 0.25
@@ -2375,6 +2389,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 605191433}
+  backGround: {fileID: 225083948}
   speed: 1
   maxSpeed: 10
   second: 60
@@ -2429,21 +2444,21 @@ MonoBehaviour:
   humanMaxNum: 6
   proteinMaxNum: 1
   hurdleMaxNum: 1
-  hurdleMinLength: 3
-  hurdleMaxLength: 10
+  hurdleMinLength: 20
+  hurdleMaxLength: 40
   nextThinkingTime: 0
-  thinkingMinTime: 0.5
-  thinkingMaxTime: 3
+  thinkingMinTime: 0.1
+  thinkingMaxTime: 2
   addThinkingTime: 1
-  humanMaxSpeed: 4
-  humanMinSpeed: 1.5
-  proteinMaxSpeed: 1.5
-  proteinMinSpeed: 1.5
-  hurdleMaxSpeed: 1.5
-  hurdleMinSpeed: 1.5
-  humanCreatePer: 25
-  proteinCreatePer: 40
-  hurdleCreatePer: 35
+  humanMaxSpeed: 8
+  humanMinSpeed: 3
+  proteinMaxSpeed: 5
+  proteinMinSpeed: 5
+  hurdleMaxSpeed: 3
+  hurdleMinSpeed: 3
+  humanCreatePer: 40
+  proteinCreatePer: 30
+  hurdleCreatePer: 30
   awakingHumanCreatePer: 70
   awakingProteinCreatePer: 10
   awakingHurdleCreatePer: 20
@@ -5158,7 +5173,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 817a8eafcec5342d0a520cb1f23c1ea4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
