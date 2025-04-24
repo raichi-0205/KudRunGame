@@ -52,10 +52,11 @@ namespace Kud.MainGame
         public int HurdleCurrentNum { get { return hurdleCurrentNum; } set { hurdleCurrentNum = value; } }
 
         [Header("Score")]
-        [SerializeField] int score = 0;
         [SerializeField] int lengthAdditive = 1;        // 経過時間ごとの増加数
         [SerializeField] int blowAway = 5;              // 人を飛ばしたときの加算
         private float scoreCount = 0;
+        [SerializeField] ScoreUI scoreUI;
+        public ScoreUI ScoreUI { get { return scoreUI; } }
 
         [Header("Result")]
         [SerializeField] ResultMenu resultMenu;
@@ -75,7 +76,9 @@ namespace Kud.MainGame
 
             createThinkingSystem.Initialize(humanObjecs, proteinObjecs, hurdleObjecs);
 
-            score = 0;
+            scoreUI.Initialize();
+
+            ScoreManager.Instance.Score = 0;
 
             resultMenu.Initialize();
         }
@@ -118,7 +121,7 @@ namespace Kud.MainGame
             }
             else
             {
-                score += lengthAdditive;
+                ScoreManager.Instance.Score += lengthAdditive;
                 scoreCount = 0;
             }
         }
@@ -258,7 +261,7 @@ namespace Kud.MainGame
         /// </summary>
         public void BlowAddScore()
         {
-            score += blowAway;
+            ScoreManager.Instance.Score += blowAway;
         }
 
         /// <summary>
@@ -272,7 +275,6 @@ namespace Kud.MainGame
             player.Stop();
             isGameStart = false;
 
-            ScoreManager.Instance.Score = score;
             resultMenu.Open();
 
             void ObjectAllStop<T>(List<T> _objects) where T : HitObject
