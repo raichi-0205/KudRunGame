@@ -147,6 +147,11 @@ namespace Kud.MainGame
                 }
                 int createCol = ThinkingCol(lineFlag, objectType, ref speed);          // 生成する列
                 Debug.Log($"[Create] ColumThinking:{createCol}");
+                if(createCol == -1)
+                {
+                    // 生成できる列がなかった
+                    continue;
+                }
 
                 switch (objectType)
                 {
