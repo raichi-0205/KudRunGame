@@ -142,13 +142,21 @@ namespace Kud.MainGame
             float top = _gameObject.transform.position.y + _gameObject.transform.localScale.y / 2;
             float bottom = _gameObject.transform.position.y - _gameObject.transform.localScale.y / 2;
 
-            if ((left <= _right && right >= _right) || (left <= _left && right >= _left))
+            if((left <= _left && right >= _left) || (left <= _right && right >= _right))
             {
-                if ((top >= _top && bottom <= _top) || (top >= _bottom && bottom <= _bottom))
+                if((top >= _top && bottom <= _top) || (top >= _bottom && bottom <= _bottom))
                 {
                     return true;
                 }
             }
+            if ((_left <= left && _right >= left) || (_left <= right && _right >= right))
+            {
+                if ((_top >= top && _bottom <= top) || (_top >= bottom && _bottom <= bottom))
+                {
+                    return true;
+                }
+            }
+
             return false;
         }
 
