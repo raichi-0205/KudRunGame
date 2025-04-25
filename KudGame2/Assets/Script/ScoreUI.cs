@@ -14,6 +14,13 @@ namespace Kud.MainGame
         {
             hiScoreTitle = hiScoreText.text;
             scoreTitle = scoreText.text;
+
+            UpdateHiScore();
+        }
+
+        public void UpdateHiScore()
+        {
+            hiScoreText.text = $"{hiScoreTitle}\n{ScoreManager.Instance.HiScore}";
         }
 
         public void UpdateScore()

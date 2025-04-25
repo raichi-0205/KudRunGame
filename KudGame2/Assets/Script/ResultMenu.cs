@@ -30,6 +30,8 @@ namespace Kud.MainGame
         /// </summary>
         public void Open()
         {
+            ScoreManager.Instance.ScoreUpdate();
+
             gameObject.SetActive(true);
             score.text = ScoreManager.Instance.Score.ToString();
             hiScore.text = ScoreManager.Instance.HiScore.ToString();
