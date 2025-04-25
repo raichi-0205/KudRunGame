@@ -393,7 +393,7 @@ Canvas:
   m_GameObject: {fileID: 101070875}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 519420031}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -1065,7 +1065,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a6a52f42627506743903e4c4818f71c0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1087,7 +1087,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 32bc10f4b201f72479822a9ca0b12e6b, type: 3}
-  m_Color: {r: 0.6981132, g: 0.50453323, b: 0.09549664, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1110,6 +1110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backGround: {fileID: 225083945}
+  spriteRenderer: {fileID: 225083947}
 --- !u!1 &246125118
 GameObject:
   m_ObjectHideFlags: 0
@@ -2478,13 +2479,13 @@ MonoBehaviour:
   currentWarningTimes: []
   warningObject: {fileID: 1951971092}
   onceSetObjectMax: 2
-  humanMaxNum: 6
+  humanMaxNum: 4
   proteinMaxNum: 1
   hurdleMaxNum: 1
   hurdleMinLength: 20
   hurdleMaxLength: 40
   nextThinkingTime: 0
-  thinkingMinTime: 0.1
+  thinkingMinTime: 0.25
   thinkingMaxTime: 2
   addThinkingTime: 1
   humanMaxSpeed: 8

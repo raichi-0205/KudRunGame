@@ -26,6 +26,7 @@ namespace Kud.MainGame
         [SerializeField] float maxSpeed = 10;           // 最大速度
         [SerializeField] float second = 60;             // 最高速度に到達するまでの秒数
         [SerializeField] float accele = 1 / 6;          // 加速値      計算で求める
+        public float Speed { get { return speed; } }
 
         [Header("Create Object")]
         [SerializeField, Kud.Editor.NamedArray(typeof(OBJECT_TYPE))] HitObject[] hitObjects;        // 当たり判定のあるオブジェクト
@@ -62,6 +63,7 @@ namespace Kud.MainGame
         [SerializeField] ResultMenu resultMenu;
 
         private bool isGameStart = false;
+        public bool IsGameStart { get { return isGameStart; } }
 
         void Initialize()
         {
