@@ -15,6 +15,7 @@ namespace Kud.MainGame
 
         private void Initialize()
         {
+            gameObject.SetActive(true);
             startButton.onClick.AddListener(() =>
             {
                 gameObject.SetActive(false);
