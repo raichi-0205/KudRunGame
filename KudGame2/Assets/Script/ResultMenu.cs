@@ -11,6 +11,7 @@ namespace Kud.MainGame
         [SerializeField] TextMeshProUGUI score;
         [SerializeField] TextMeshProUGUI hiScore;
         [SerializeField] TextMeshProUGUI socialHiScore;
+        [SerializeField] Image updateSocialHiScore;
         [SerializeField] Button retryButton;
 
         /// <summary>
@@ -28,14 +29,16 @@ namespace Kud.MainGame
         /// <summary>
         /// リザルト画面を開く
         /// </summary>
-        public void Open()
+        public async System.Threading.Tasks.Task Open()
         {
             ScoreManager.Instance.ScoreUpdate();
+            await ScoreManager.Instance.SendScore();
 
             gameObject.SetActive(true);
             score.text = ScoreManager.Instance.Score.ToString();
             hiScore.text = ScoreManager.Instance.HiScore.ToString();
             socialHiScore.text = ScoreManager.Instance.SocialHiScore.ToString();
+            updateSocialHiScore.gameObject.SetActive(ScoreManager.Instance.IsUpdateSocialHiScore);
         }
     }
 }

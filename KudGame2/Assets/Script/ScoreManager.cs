@@ -10,11 +10,20 @@ namespace Kud.MainGame
         public int HiScore { get; set; } = 0;
         public int SocialHiScore { get; set; } = 0;
 
+        public bool IsUpdateSocialHiScore { get; private set; } = false;
+
         const string dataKey = "HiScore";
+
+        Network.UpdateScore updateScore = new Network.UpdateScore();
 
         public ScoreManager()
         {
             ScoreLoad();
+            updateScore.CallBack = (res) =>
+            {
+                SocialHiScore = res.__dat.DataValue;
+                IsUpdateSocialHiScore = res.__dat.isUpdate;
+            };
         }
 
         /// <summary>
@@ -36,6 +45,15 @@ namespace Kud.MainGame
                 PlayerPrefs.SetInt(dataKey, score);
                 HiScore = score;
             }
+        }
+
+        /// <summary>
+        /// スコア送信
+        /// </summary>
+        /// <returns></returns>
+        public async System.Threading.Tasks.Task SendScore()
+        {
+            await updateScore.SendStart(score);
         }
 
         /// <summary>
