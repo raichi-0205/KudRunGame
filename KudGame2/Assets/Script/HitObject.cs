@@ -16,6 +16,7 @@ namespace Kud.MainGame
         protected float overTopY = float.MaxValue;
         protected GameManager.OBJECT_TYPE objectType;
         protected bool isStop = false;
+        [SerializeField] protected Vector2 colSizeCorrection = Vector2.one;        // 当たり判定の補正
 
         /// <summary>
         /// 初期化処理
@@ -62,10 +63,11 @@ namespace Kud.MainGame
                     isInDisplay = true;
                 }
 
-                float left = transform.position.x - transform.localScale.x / 2;
-                float right = transform.position.x + transform.localScale.x / 2;
-                float top = transform.position.y + transform.localScale.y / 2;
-                float bottom = transform.position.y - transform.localScale.y / 2;
+                Vector4 collision = CreateSelfCollision(colSizeCorrection);     // 補正値を使った判定
+                float left = collision.x;
+                float right = collision.y;
+                float top = collision.z;
+                float bottom = collision.w;
 
                 // プレイヤーとの当たり判定
                 Player player = GameManager.Instance.Player;
@@ -74,6 +76,12 @@ namespace Kud.MainGame
                     OnHitPlayer(player);
                     return;
                 }
+
+                collision = CreateSelfCollision(Vector2.one);       // 補正値を使わない判定
+                left = collision.x;
+                right = collision.y;
+                top = collision.z;
+                bottom = collision.w;
 
                 foreach (HumanObject humanObj in GameManager.Instance.HumanObjects)
                 {
@@ -124,6 +132,20 @@ namespace Kud.MainGame
                 }
 
             }
+        }
+
+        /// <summary>
+        /// 自分の当たり判定の作成
+        /// </summary>
+        /// <returns></returns>
+        protected Vector4 CreateSelfCollision(Vector2 _colSizeCorrection)
+        {
+            float left = transform.position.x - transform.localScale.x * _colSizeCorrection.x / 2;
+            float right = transform.position.x + transform.localScale.x * _colSizeCorrection.x / 2;
+            float top = transform.position.y + transform.localScale.y * _colSizeCorrection.y / 2;
+            float bottom = transform.position.y - transform.localScale.y * _colSizeCorrection.y / 2;
+
+            return new Vector4(left, right, top, bottom);
         }
 
         /// <summary>
