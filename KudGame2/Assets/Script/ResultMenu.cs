@@ -22,6 +22,7 @@ namespace Kud.MainGame
             gameObject.SetActive(false);
             retryButton.onClick.AddListener(() =>
             {
+                Sound.SoundManager.Instance.PlaySound(Sound.SoundManager.SE.Enter);
                 SceneManager.LoadScene(0);          // このシーンを読み込みなおす
             });
         }

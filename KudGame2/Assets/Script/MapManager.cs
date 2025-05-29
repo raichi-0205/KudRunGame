@@ -28,6 +28,11 @@ namespace Kud.MainGame
 
         protected override void Awake()
         {
+            if (Instance != this)
+            {
+                Destroy(this.gameObject);
+            }
+
             base.Awake();
             DontDestroyOnLoad(this.gameObject);
         }

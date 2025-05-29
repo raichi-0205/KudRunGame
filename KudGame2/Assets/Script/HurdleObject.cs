@@ -40,6 +40,7 @@ namespace Kud.MainGame
         {
             base.OnHitPlayer(_player);
             GameManager.Instance.AllObjectStop();
+            Sound.SoundManager.Instance.PlaySound(Sound.SoundManager.SE.BadHit);
         }
     }
 }

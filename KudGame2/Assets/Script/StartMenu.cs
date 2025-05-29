@@ -18,6 +18,7 @@ namespace Kud.MainGame
             gameObject.SetActive(true);
             startButton.onClick.AddListener(() =>
             {
+                Sound.SoundManager.Instance.PlaySound(Sound.SoundManager.SE.Enter);
                 gameObject.SetActive(false);
                 GameManager.Instance.GameStart();
             });

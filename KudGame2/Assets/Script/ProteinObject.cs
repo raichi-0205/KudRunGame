@@ -30,6 +30,7 @@ namespace Kud.MainGame
             _player.CatchProtein();
             gameObject.SetActive(false);
             GameManager.Instance.UnActiveObject(objectType);
+            Sound.SoundManager.Instance.PlaySound(Sound.SoundManager.SE.Get);
         }
     }
 }

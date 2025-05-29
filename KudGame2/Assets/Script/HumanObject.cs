@@ -56,10 +56,12 @@ namespace Kud.MainGame
                 displayOverNormal = new Vector3(displayOverNormal.x, Mathf.Abs(displayOverNormal.y));       // 飛ばす方向の単位ベクトルのy軸反転
                 GameManager.Instance.BlowAddScore();                // スコア加算
                 isHit = true;
+                Sound.SoundManager.Instance.PlaySound(Sound.SoundManager.SE.Critical);
             }
             else
             {
                 GameManager.Instance.AllObjectStop();
+                Sound.SoundManager.Instance.PlaySound(Sound.SoundManager.SE.BadHit);
             }
         }
     }
