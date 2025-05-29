@@ -104,7 +104,7 @@ namespace Kud.MainGame
                         if (hurdleObject != null)
                         {
                             // 長さを決める
-                            hurdleObject.SetLength(Random.Range(hurdleMinLength, hurdleMaxLength));
+                            hurdleObject.SetLength(Mathf.RoundToInt(Random.Range(hurdleMinLength, hurdleMaxLength)));
                             // 警告を出して止める
                             GameManager.Instance.StartObject(hurdleObject, i, Random.Range(hurdleMinSpeed, hurdleMaxSpeed));     // Hack: 速度算出を治す
                         }
