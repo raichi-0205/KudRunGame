@@ -3,6 +3,7 @@ using UnityEditor;
 
 namespace Kud.Editor
 {
+#if UNITY_EDITOR
     public class DebugMenu : MonoBehaviour
     {
         private void OnGUI()
@@ -14,7 +15,6 @@ namespace Kud.Editor
         }
     }
 
-#if UNITY_EDITOR
     [CustomEditor(typeof(DebugMenu))]
     public class DebugMenuEditor : UnityEditor.Editor
     {
